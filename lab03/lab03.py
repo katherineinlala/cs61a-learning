@@ -149,7 +149,9 @@ def ten_pairs(n: int) -> int:
     True
     """
     "*** YOUR CODE HERE ***"
-    
+    if n < 10:
+        return 0
+    return ten_pairs(n // 10) + count_digit(n // 10, 10 - n % 10)
 
 
 def count_digit(n: int, digit: int) -> int:
@@ -163,4 +165,11 @@ def count_digit(n: int, digit: int) -> int:
     True
     """
     "*** YOUR CODE HERE ***"
+    if n < 10:
+        return 1 * (n == digit)
+    if n % 10 == digit:
+        return 1 + count_digit(n // 10, digit)
+    else:
+        return count_digit(n // 10, digit)
+    
 
