@@ -248,4 +248,18 @@ def count_dollars_upward(sum_needed: int) -> int:
     True
     """
     "*** YOUR CODE HERE ***"
+    return count_dollars_limits(sum_needed, 1)
+
+def count_dollars_limits(sum_needed, smallest_bill):
+    if sum_needed == 0:
+        return 1
+    if smallest_bill == None:
+        return 0
+    if sum_needed < smallest_bill:
+        return 0
+    if smallest_bill == 100:
+        return sum_needed % 100 == 0
+    if sum_needed == smallest_bill:
+        return 1
+    return count_dollars_limits(sum_needed, next_larger_dollar(smallest_bill)) + count_dollars_limits(sum_needed - smallest_bill, smallest_bill)
 
