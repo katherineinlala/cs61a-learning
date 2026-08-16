@@ -287,10 +287,16 @@ def only_paths(t, n):
     if is_leaf(t) and label(t) == n:
         return t
     new_branches = [only_paths(b, n - label(t)) for b in branches(t)]
-    if ____(new_branches):
-        return tree(label(t), [b for b in new_branches if ____])
+    if any(new_branches):
+        return tree(label(t), [b for b in new_branches if is_tree(b)])
 
-
+# def only_paths(t, n):
+#     if label(t) == n and is_leaf(t):
+#         return t
+#     if label(t) != n and is_leaf:
+#         return None
+#     return tree(label(t), [only_paths(b, n - label(t)) for b in branches(t)])
+    
 
 
 # Tree Data Abstraction
