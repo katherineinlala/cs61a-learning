@@ -10,9 +10,14 @@ def min_abs_indices(s):
     [0]
     """
     "*** YOUR CODE HERE ***"
-    s_abs = list(map(abs, s))
-    smallest_abs = min(s_abs)
-    return [i for i in range(len(s)) if s_abs[i] == smallest_abs]
+    # s_abs = list(map(abs, s))
+    # smallest_abs = min(s_abs)
+    # return [i for i in range(len(s)) if s_abs[i] == smallest_abs]s))
+    # return [i for i in range(len(s)) if abs(s[i]) == min(map(abs,s))]
+
+    min_abs = min(map(abs, s))
+    f = lambda i: abs(s[i]) == min_abs
+    return list(filter(f, range(len(s))))
 
 
 def largest_adjacent_sum(s):
@@ -31,7 +36,8 @@ def largest_adjacent_sum(s):
     #     if result < s[i-1] + s[i]:
     #         result = s[i-1] + s[i]
     # return result
-    return max([s[i] + s[i + 1] for i in range(len(s) - 1)])
+    # return max([s[i] + s[i + 1] for i in range(len(s) - 1)])
+    return max([a + b for a, b in zip(s[:-1], s[1:])])
     
 
 def group_by_last_digit(s):
@@ -41,19 +47,31 @@ def group_by_last_digit(s):
     {1: [21], 3: [13], 4: [34], 5: [5, 55], 8: [8], 9: [89]}
     """
     "*** YOUR CODE HERE ***"
-    keys = [key for key in range(10) if any([num % 10 == key for num in s])]
-    return {key: [num for num in s if num % 10 == key] for key in keys}
+    # keys = [key for key in range(10) if any([num % 10 == key for num in s])]
+    # return {key: [num for num in s if num % 10 == key] for key in keys}
 
+    return {d: [num for num in s if num % 10 == d] for d in range(10) if any(x % 10 == d for x in s)}
 
 def every_element_has_match(s):
     """Return whether every element in s equals some other element in s.
 
     >>> every_element_has_match([-4, -3, -2, 3, 2, 4])
-    False
+    False 
     >>> every_element_has_match([4, 3, 2, 3, 2, 4])
     True
     """
     "*** YOUR CODE HERE ***"
+    # for i in range(len(s)):
+    #     if not any([x == s[i] for x in s[:i] + s[i+1:]]):
+    #         return False
+    # return True
+    # return all(
+    #     s[i] in s[:i] + s[i+1:]
+    #     for i in range(len(s))
+    # )
+    # return all([sum([1 for y in s if y == x]) >= 2 for x in s])
+    # return all(s.count(x) >= 2 for x in s)
+    return min(s.count(x) for x in s) > 1
     
     
 
