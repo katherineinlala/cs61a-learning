@@ -230,21 +230,28 @@ def minimum_mewtations(typed, source, limit):
     >>> minimum_mewtations("ckiteus", "kittens", big_limit) # ckiteus -> kiteus -> kitteus -> kittens
     3
     """
-    if ___________: # Base cases should go here, you may add more base cases as needed.
+    if typed == "" or source == "": # Base cases should go here, you may add more base cases as needed.
         # BEGIN
         "*** YOUR CODE HERE ***"
+        return abs(len(typed) - len(source))
         # END
+    if typed == source:
+        return 0
+    if limit == 0:
+        return 1
     # Recursive cases should go below here
-    if ___________: # Feel free to remove or add additional cases
+    if typed[0] == source[0]: # Feel free to remove or add additional cases
         # BEGIN
         "*** YOUR CODE HERE ***"
+        return minimum_mewtations(typed[1:], source[1:], limit)
         # END
     else:
-        add = ... # Fill in these lines
-        remove = ...
-        substitute = ...
+        add = minimum_mewtations(typed, source[1:], limit - 1) # Fill in these lines
+        remove = minimum_mewtations(typed[1:], source, limit - 1)
+        substitute = minimum_mewtations(typed[1:], source[1:], limit - 1)
         # BEGIN
         "*** YOUR CODE HERE ***"
+        return 1 + min(add, remove, substitute)
         # END
 
 
@@ -286,6 +293,15 @@ def report_progress(typed, source, user_id, upload):
     """
     # BEGIN PROBLEM 8
     "*** YOUR CODE HERE ***"
+    matched = []
+    for i in range(len(typed)):
+        if typed[i] == source[i]:
+            matched.append(typed[i])
+        if typed[i] != source[i]:
+            break
+    progress = len(matched) / len(source)
+    upload({'id': user_id, 'progress': progress})
+    return progress
     # END PROBLEM 8
 
 
@@ -308,6 +324,10 @@ def time_per_word(words, timestamps_per_player):
     """
     # BEGIN PROBLEM 9
     "*** YOUR CODE HERE ***"
+    times = []
+    for timestamps in timestamps_per_player:
+        times.append([timestamps[i] - timestamps[i - 1] for i in range(1, len(timestamps))])
+    return match(words, times)
     # END PROBLEM 9
 
 
@@ -330,8 +350,18 @@ def fastest_words(match):
     word_indices = range(len(get_all_words(match)))    # contains an *index* for each word
     # BEGIN PROBLEM 10
     "*** YOUR CODE HERE ***"
+    result = [[]for _ in player_indices]
+    for j in word_indices:
+        min = float('inf')
+        min_player = 0
+        for i in player_indices:
+            time = get_all_times(match)[i][j]
+            if time < min:
+                min = time
+                min_player = i
+        result[min_player].append(get_all_words(match)[word_indices[j]])
+    return result
     # END PROBLEM 10
-
 
 def match(words, times):
     """A data abstraction containing all words typed and their times.
